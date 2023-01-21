@@ -19,6 +19,7 @@ use App\Http\Controllers\PostController;
 Route::get('/', [HomeController::class, 'index'])->name("home.index");
 Route::get('/about', [HomeController::class, 'about'])->name("home.about");
 Route::get('/posts', [PostController::class, 'index'])->name("post.index");
+Route::get('/posts/{slug}', [PostController::class, 'show'])->name("post.show");
 
 
 
