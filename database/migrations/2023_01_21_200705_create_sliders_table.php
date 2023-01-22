@@ -1,5 +1,6 @@
 <?php
 
+use Hamcrest\Description;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,17 +14,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('sliders', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description')->nullable();
-            $table->text('content')->nullable();
-            $table->text('source')->nullable();
-            $table->string('slug')->unique();
-            $table->integer('sort')->unsigned();
-            $table->boolean('active')->default(true);
-            
-            $table->index('slug');
+            $table->string('image');
+            $table->string('link');
+            $table->integer('sort');
         });
     }
 
@@ -34,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('sliders');
     }
 };

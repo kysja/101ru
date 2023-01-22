@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 
 
-Route::get('/', [HomeController::class, 'index'])->name("home.index");
-Route::get('/about', [HomeController::class, 'about'])->name("home.about");
+Route::get('/', [PageController::class, 'index'])->name("page.index");
+Route::get('/about', [PageController::class, 'about'])->name("page.about");
 Route::get('/posts', [PostController::class, 'index'])->name("post.index");
 Route::get('/posts/{slug}', [PostController::class, 'show'])->name("post.show");
 

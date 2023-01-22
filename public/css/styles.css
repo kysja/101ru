@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Vidaloka&display=swap');
+
+:root {
+  --font-family: 'Podkova', serif;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: 1.2em;
+}

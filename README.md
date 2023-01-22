@@ -1,5 +1,15 @@
-# Website 101ru - Russia in pictures
+# Website 101ru.com - Russia in pictures
 
-[www.101ru.com](https://www.101ru.com)
+See: [www.101ru.com](https://www.101ru.com)
 
-The website is built using the Laravel framework and utilizes PHP, MySQL, and Bootstrap. 
+
+## Technologies
+
+- Laravel 9
+- PHP
+- MySQL
+- HTML
+- CSS
+- Bootstrap
+- Javascript
+

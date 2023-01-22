@@ -12,14 +12,14 @@ class PostController extends Controller
     {
         $viewData['title'] = 'Posts';
         $viewData['h1'] = 'Posts';
-        $viewData['posts'] = Post::where('is_published', True)->orderBy('sort')->get();
+        $viewData['posts'] = Post::where('active', True)->orderBy('sort')->get();
 
         return view('post.index')->with("viewData", $viewData);
     }
 
     public function show($slug)
     {
-        $post = Post::where('slug', $slug)->firstOrFail();
+        $post = Post::where('slug', $slug)->where('active', True)->firstOrFail();
 
         $viewData = [
             'title' => $post->title,
