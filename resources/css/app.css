@@ -1,0 +1,10 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+:root {
+  --font-family: 'Podkova', serif;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: 1.2em;
+}

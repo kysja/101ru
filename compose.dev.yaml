@@ -1,0 +1,50 @@
+# Local development: docker compose up -d (COMPOSE_FILE=compose.dev.yaml in the local .env)
+# Served by the shared Traefik proxy (~/traefik):
+# https://101ru.test -> app, https://vite.101ru.test -> node
+
+name: 101ru-dev
+
+services:
+  app:
+    image: 101ru-app:dev
+    build:
+      context: .
+      target: dev
+    volumes:
+      - .:/var/www/html
+    # Windows MySQL (DB_HOST=windows-host in .env). The Windows host IP changes
+    # when WSL restarts, so it comes from the shell
+    extra_hosts:
+      - "windows-host:${WINDOWS_HOST_IP:?export WINDOWS_HOST_IP in ~/.bashrc}"
+    networks:
+      - default
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.101ru.rule=Host(`101ru.test`)
+      - traefik.http.routers.101ru.entrypoints=websecure
+      - traefik.http.services.101ru.loadbalancer.server.port=80
+
+  node:
+    image: node:24-alpine
+    working_dir: /var/www/html
+    user: node
+    # npm ci (never rewrites the lockfile) only on first run or when the lockfile changed
+    command: ["sh", "-c", "if [ ! -f node_modules/.package-lock.json ] || [ package-lock.json -nt node_modules/.package-lock.json ]; then npm ci; fi; npm run dev"]
+    environment:
+      VITE_DEV_HOST: vite.101ru.test
+    volumes:
+      - .:/var/www/html
+    networks:
+      - default
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.101ru-vite.rule=Host(`vite.101ru.test`)
+      - traefik.http.routers.101ru-vite.entrypoints=websecure
+      - traefik.http.services.101ru-vite.loadbalancer.server.port=5180
+
+# Created by the Traefik stack, which must be running first
+networks:
+  traefik:
+    external: true
