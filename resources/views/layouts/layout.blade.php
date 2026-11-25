@@ -18,7 +18,7 @@
             <img src="{{ asset('/images/logo.png') }}" alt="Russia in Pictures">
         </a>
 
-        <img src="{{ asset('/images/stand_with_ukraine.png') }}" class="me-5" alt="Stand with Ukraine" style="max-height:70px;">
+        <!--img src="{{ asset('/images/stand_with_ukraine.png') }}" class="me-5" alt="Stand with Ukraine" style="max-height:70px;"-->
 
         <ul class="nav nav-pills mt-3">
             <li class="nav-item"><a href="{{ route('page.index') }}" class="nav-link {{ Route::currentRouteName() == "page.index" ? "active" : "" }}" aria-current="page">Home</a></li>
