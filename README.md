@@ -11,18 +11,17 @@ See: [www.101ru.com](https://www.101ru.com)
 
 ## Local development
 
-Runs in Docker behind the shared Traefik proxy at https://101ru.test (see `~/traefik/AGENTS.md`).
+Runs in Docker on the alexu-dev server (`/srv/apps/101ru`) behind the shared Traefik proxy at https://101ru.dev.alexu.dev, with the database `db_101ru` on the shared MySQL container (`DB_HOST=mysql`).
 
 The local `.env` sets `COMPOSE_FILE=compose.dev.yaml`, so plain `docker compose` runs the dev stack.
 
 ```bash
-export WINDOWS_HOST_IP=$(ip route show default | awk '{print $3}')
 docker compose up -d
 docker compose exec -u www-data app composer install
 docker compose exec -u www-data app php artisan test
 ```
 
-The `node` service runs the Vite dev server at https://vite.101ru.test.
+The `node` service runs the Vite dev server at https://vite-101ru.dev.alexu.dev.
 
 Photos live in `storage/app/public` (`post/`, `slider/`); `public/storage` is a symlink to it (`php artisan storage:link`).
 
