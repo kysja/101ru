@@ -11,6 +11,10 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
     <title>@yield('title', 'Russia in Pictures') | Russia in Pictures</title>
+
+    @production
+        <script defer src="https://analytics.alexu.dev/script.js" data-website-id="c41680e4-88b0-4e65-8b88-60dcad3fe902"></script>
+    @endproduction
 </head>
 <body class="d-flex flex-column h-100">
     
