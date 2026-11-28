@@ -2,6 +2,7 @@
 # Served by the shared Traefik proxy on alexu-dev (/srv/infra/traefik):
 # https://101ru.dev.alexu.dev -> app, https://vite-101ru.dev.alexu.dev -> node
 # Database: the shared MySQL container (DB_HOST=mysql) over mysql-shared
+# Data: DATA_PATH=/srv/data/101ru in the local .env (storage/app, storage/logs)
 
 name: 101ru-dev
 
@@ -11,8 +12,12 @@ services:
     build:
       context: .
       target: dev
+    # Photos and logs live outside the checkout under DATA_PATH, as in
+    # production (unset: they stay in ./storage)
     volumes:
       - .:/var/www/html
+      - ${DATA_PATH:-.}/storage/app:/var/www/html/storage/app
+      - ${DATA_PATH:-.}/storage/logs:/var/www/html/storage/logs
     networks:
       - default
       - traefik-proxy

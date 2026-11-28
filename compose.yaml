@@ -6,18 +6,17 @@
 # `mysql` over the internal mysql-shared network.
 # Nothing is queued or scheduled, so there's no worker or scheduler container.
 #
-# .env (also read by Compose for DATA_PATH). Readable by www-data:
+# .env. Readable by www-data:
 #   sudo chown root:33 .env && sudo chmod 640 .env
 #   APP_URL=https://101ru.com  APP_ENV=production  APP_DEBUG=false
-#   DATA_PATH=/srv/data/101ru.com
 #   DB_CONNECTION=mysql  DB_HOST=mysql  DB_PORT=3306
 #   DB_DATABASE=101ru  DB_USERNAME=101ru  DB_PASSWORD=<its password>
 #
 #   sudo docker compose config -q && sudo docker compose up -d --build
 #
-# Persistent files under DATA_PATH (./data if unset). Back up storage/app/
-# together with a dump of the database, so a restored database never points
-# at missing photos:
+# Persistent files under /srv/data/101ru.com (DATA_PATH in .env overrides it).
+# Back up storage/app/ together with a dump of the database, so a restored
+# database never points at missing photos:
 #   storage/app/public/post/    post photos (main/<id>.jpg, images/<id>/*)
 #   storage/app/public/slider/  home page slider
 #   storage/logs/               Laravel logs (no need to back up)
@@ -33,13 +32,13 @@ services:
       context: .
       target: prod
     restart: unless-stopped
-    # Data lives outside the checkout (DATA_PATH), so the code folder can be
-    # deleted and re-cloned. storage/framework (cache, compiled views, sessions)
-    # isn't mounted: it's rebuilt in the container on every start.
+    # Data lives outside the checkout, so the code folder can be deleted and
+    # re-cloned. storage/framework (cache, compiled views, sessions) isn't
+    # mounted: it's rebuilt in the container on every start.
     volumes:
       - ./.env:/var/www/html/.env:ro
-      - ${DATA_PATH:-./data}/storage/app:/var/www/html/storage/app
-      - ${DATA_PATH:-./data}/storage/logs:/var/www/html/storage/logs
+      - ${DATA_PATH:-/srv/data/101ru.com}/storage/app:/var/www/html/storage/app
+      - ${DATA_PATH:-/srv/data/101ru.com}/storage/logs:/var/www/html/storage/logs
     # traefik-proxy: web traffic in (and outbound internet);
     # mysql-shared is internal (no internet), for the database only
     networks:
