@@ -69,6 +69,9 @@ COPY --from=vendor /var/www/html/vendor ./vendor
 COPY . .
 COPY --from=assets /app/public/build ./public/build
 
+RUN find /var/www/html/resources -type d -exec chmod 755 {} + \
+    && find /var/www/html/resources -type f -exec chmod 644 {} +
+
 # --no-scripts: package:discover boots the app, which needs .env (mounted at
 # runtime); Laravel builds bootstrap/cache/packages.php itself on first boot.
 # public/storage -> the photos on the public disk (in the storage/ mount)
